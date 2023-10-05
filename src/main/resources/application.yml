@@ -9,9 +9,33 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
+      routes:
+        - id: users-status-test
+          uri: ld://account-service
+          predicates:
+            - Path=/account-service/users/status
+            - Method=GET
+            - Header=Authorization, Bearer (.*)
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/account-service/(?<segment>.*), /$\(?<segment>.*)
+#            - AuthorizationHeaderFilter
+        - id: users-login
+          uri: ld://account-service
+          predicates:
+            - Path=/account-service/login
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/account-service/(?<segment>.*), /$\(?<segment>.*)
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8000/eureka
+      
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty.http.client: DEBUG
       
       
