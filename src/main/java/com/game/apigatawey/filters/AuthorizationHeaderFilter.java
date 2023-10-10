@@ -1,4 +1,4 @@
-package com.game.apigatawey;
+package com.game.apigatawey.filters;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
